@@ -1,0 +1,11 @@
+--- ruby-1.8.6-p383/lib/mkmf.rb.static	2009-03-31 18:19:39.000000000 +0900
++++ ruby-1.8.6-p383/lib/mkmf.rb	2009-12-09 15:03:19.000000000 +0900
+@@ -275,7 +275,7 @@
+                               'LDFLAGS' => "#$LDFLAGS #{ldflags}",
+                               'LIBPATH' => libpathflag(libpath),
+                               'LOCAL_LIBS' => "#$LOCAL_LIBS #$libs",
+-                              'LIBS' => "#$LIBRUBYARG_STATIC #{opt} #$LIBS")
++                              'LIBS' => "#$LIBRUBYARG_SHARED #{opt} #$LIBS")
+   Config::expand(TRY_LINK.dup, conf)
+ end
+ 

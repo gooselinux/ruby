@@ -1,0 +1,11 @@
+--- ruby-1.8.7-p249/configure.in.orig	2010-06-15 11:32:55.000000000 -0400
++++ ruby-1.8.7-p249/configure.in	2010-06-15 11:33:55.000000000 -0400
+@@ -1763,6 +1763,8 @@
+ configure_args=$ac_configure_args
+ AC_SUBST(configure_args)dnl
+ 
++target_cpu=`echo $target_cpu | sed s/i.86/i386/`
++
+ if test "$fat_binary" != no ; then
+     arch="fat-${target_os}"
+ 
