@@ -16,7 +16,7 @@
 
 Name:		ruby
 Version:	%{rubyver}%{?dotpatchlevel}
-Release:	4%{?dist}
+Release:	5%{?dist}.1
 License:	Ruby or GPLv2
 URL:		http://www.ruby-lang.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -59,6 +59,9 @@ Patch29:	ruby-always-use-i386.patch
 # bug 428384, Fedora specific, however needed for Fedora's static
 # archive policy
 Patch33:	ruby-1.8.6-p383-mkmf-use-shared.patch
+
+# Avoid segfault on PowerPC64.
+Patch41:	ruby-ppc64-segv-fix.patch
 
 Patch100:	ruby-1.8.7-lib-paths.patch
 Patch200:	ruby-1.8.7-webrick-CVE.patch
@@ -183,6 +186,7 @@ pushd %{name}-%{arcver}
 %patch27 -p0
 %patch29 -p1
 %patch33 -p1
+%patch41 -p1
 %patch100 -p1
 %patch200 -p1
 popd
@@ -231,11 +235,7 @@ popd
 
 %check
 pushd %{name}-%{arcver}
-%ifarch ppc64
-make test || :
-%else
 make test
-%endif
 popd
 
 %install
@@ -559,6 +559,15 @@ rm -rf $RPM_BUILD_ROOT
 %doc tmp-ruby-docs/ruby-libs/*
 
 %changelog
+* Mon Nov 17 2010 Jim Meyering <meyering@redhat.com> - 1.8.7.299-5.1
+- Append .1 to Release.
+
+* Mon Nov 17 2010 Jim Meyering <meyering@redhat.com> - 1.8.7.299-5
+- avoid thread-related segfault on powerpc64
+  * ruby-ppc64-segv-fix.patch: New file.
+  Do not ignore test failure on ppc64.
+- Resolves: rhbz#653824
+
 * Mon Aug 16 2010 Jim Meyering <meyering@redhat.com> - 1.8.7.299-4
 - Address CVE-2010-0541 "Ruby WEBrick javascript injection flaw"
   by applying the patch from Apple as included in

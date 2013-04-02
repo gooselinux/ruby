@@ -1,0 +1,16 @@
+# Patch from michael.neuling@au1.ibm.com in http://bugzilla.redhat.com/628715
+diff --git a/eval.c b/eval.c
+index 7156c06..45053ae 100644
+--- a/eval.c
++++ b/eval.c
+@@ -198,9 +198,9 @@ static int volatile freebsd_clear_carry_flag = 0;
+ #  endif
+ #  define ruby_longjmp(env, val) rb_jump_context(env, val)
+ #  define ruby_setjmp(just_before_setjmp, j) ((j)->status = 0, \
+-     (just_before_setjmp), \
+      PRE_GETCONTEXT, \
+      getcontext(&(j)->context), \
++     (((j)->status)?:(just_before_setjmp)), \
+      POST_GETCONTEXT, \
+      (j)->status)
+ #else
